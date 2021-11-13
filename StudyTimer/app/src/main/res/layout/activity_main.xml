@@ -6,31 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/timerTextView"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/countTypeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/timer_background"
+        android:padding="10dp"
+        android:text="CLOCK"
         android:textAlignment="center"
-        android:textSize="100sp"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/timerLinearLayout"
+        app:layout_constraintStart_toStartOf="@+id/timerLinearLayout" />
+
+    <LinearLayout
+        android:id="@+id/timerLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/timer_background"
+        android:paddingHorizontal="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/secTimerTextView"
-        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3"
-        tools:text="00:00" />
+        app:layout_constraintVertical_bias="0.3">
 
-    <TextView
-        android:id="@+id/secTimerTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="50sp"
-        app:layout_constraintBaseline_toBaselineOf="@id/timerTextView"
-        app:layout_constraintBottom_toBottomOf="@id/timerTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/timerTextView"
-        tools:text="00" />
+        <TextView
+            android:id="@+id/timerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ds_digib"
+            android:text="00:00"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="100sp" />
+
+        <TextView
+            android:id="@+id/secTimerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ds_digib"
+            android:text="00"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="50sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/timerTextView" />
+    </LinearLayout>
 
 
     <LinearLayout
@@ -42,7 +64,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timerTextView">
+        app:layout_constraintTop_toBottomOf="@id/timerLinearLayout">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -51,29 +73,32 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
-                android:textSize="10sp"
+                android:layout_weight="1"
+                android:background="@drawable/time_setting_button"
                 android:text="HR"
-                android:layout_weight="1" />
+                android:textSize="11sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
-                android:textSize="10sp"
+                android:layout_weight="1"
+                android:background="@drawable/time_setting_button"
                 android:text="MIN"
-                android:layout_weight="1" />
+                android:textSize="11sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
-                android:textSize="10sp"
+                android:layout_weight="1"
+                android:background="@drawable/time_setting_button"
                 android:text="SEC"
-                android:layout_weight="1" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -83,30 +108,32 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
-                android:textSize="10sp"
                 android:layout_weight="1"
+                android:background="@drawable/time_setting_button"
                 android:text="START/\nSTOP"
-                />
+                android:textSize="11sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
-                android:textSize="10sp"
+                android:layout_weight="1"
+                android:background="@drawable/time_setting_button"
                 android:text="MEMORY"
-                android:layout_weight="1" />
+                android:textSize="11sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
-                android:textSize="10sp"
+                android:layout_weight="1"
+                android:background="@drawable/time_setting_button"
                 android:text="CLEAR"
-                android:layout_weight="1" />
+                android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>
 
