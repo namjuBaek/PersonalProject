@@ -80,7 +80,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
                 android:text="HR"
-                android:textSize="11sp" />
+                android:textSize="13sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
                 android:text="MIN"
-                android:textSize="11sp" />
+                android:textSize="13sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
                 android:text="SEC"
-                android:textSize="11sp" />
+                android:textSize="13sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -115,7 +115,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
                 android:text="START/\nSTOP"
-                android:textSize="11sp" />
+                android:textSize="13sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
                 android:text="MEMORY"
-                android:textSize="11sp" />
+                android:textSize="13sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
@@ -133,7 +133,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
                 android:text="CLEAR"
-                android:textSize="11sp" />
+                android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>
 
