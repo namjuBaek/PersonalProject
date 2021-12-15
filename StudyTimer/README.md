@@ -5,9 +5,25 @@
 
 ##### 주요기능
 
-- 현재 시간 보여주기
-- Count-up
-- Count-down
+1. Clock
+2. Count-up 
+3. Count-down
 
-- Memory (알람 설정)
+<br>
+
+#### Clock
+
+- 위치 기준 현재 시각 조회 기능 (시계)
+
+<br>
+
+#### Count_up
+
+- 공부 시간 측정 기능
+
+<br>
+
+#### Count_down
+
+- 타이머 기능
 
