@@ -42,27 +42,30 @@ class MainActivity : AppCompatActivity() {
 
         initCountTypeButton()
         initSettingButton()
+        initThread()
+
+        //시계 구동
         updateNowTime()
     }
 
     private fun initCountTypeButton() {
         countTypeButton.setOnClickListener {
+            stopThread()
+            initTimer()
+
             when (countType) {
                 CountType.CLOCK -> {
                     countType = CountType.COUNT_UP
                     countTypeButton.text = "COUNT-UP"
-                    stopNowTime()
-                    initTimer()
                 }
                 CountType.COUNT_UP -> {
                     countType = CountType.COUNT_DOWN
                     countTypeButton.text = "COUNT-DOWN"
-                    stopNowTime()
-                    initTimer()
                 }
                 CountType.COUNT_DOWN -> {
                     countType = CountType.CLOCK
                     countTypeButton.text = "CLOCK"
+
                     updateNowTime()
                 }
             }
@@ -75,15 +78,12 @@ class MainActivity : AppCompatActivity() {
             when (countType) {
                 CountType.CLOCK -> {
                     //PASS
-
                 }
                 CountType.COUNT_UP -> {
                     updateCountUp()
-
                 }
                 CountType.COUNT_DOWN -> {
                     //TODO
-
                 }
             }
         }
@@ -104,52 +104,47 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
-    private fun updateCountUp() {
+    private fun initThread() {
+        updateTimeThread = UpdateTimeThread()
         updateCountUpThread = UpdateCountUpThread()
-        updateCountUpThread.threadStop(false)
-        updateCountUpThread.start()
-    }
 
-    private fun stopCountUp() {
-        updateCountUpThread.threadStop(true)
+        updateTimeThread.start()
+        updateCountUpThread.start()
     }
 
     private fun updateNowTime() {
         updateTimeThread = UpdateTimeThread()
-        updateTimeThread.threadStop(false)
         updateTimeThread.start()
+        updateTimeThread.threadStop(false)
     }
 
-    private fun stopNowTime() {
+    private fun updateCountUp() {
+        updateCountUpThread = UpdateCountUpThread()
+        updateCountUpThread.start()
+        updateCountUpThread.threadStop(false)
+    }
+
+    private fun stopThread() {
         updateTimeThread.threadStop(true)
+        updateCountUpThread.threadStop(true)
     }
 
-    private fun initTimer() {
-        timerTextView.text = "00:00"
-        secTimerTextView.text = "00"
-    }
-
-    private fun getNowTime(): String {
-        val mNow = System.currentTimeMillis()
-        val date = Date(mNow)
-
-        val dateFormat = SimpleDateFormat("HHmmss")
-        return dateFormat.format(date)
+    private fun stopCountUp() {
+        initTimer()
+        updateCountUpThread.threadStop(true)
     }
 
     /**
      * Count-up
      */
     inner class UpdateCountUpThread : Thread() {
-        private var stopFlag = false
+        private var stopFlag = true
         private var startTimeStamp: Long = SystemClock.elapsedRealtime()
 
         override fun run() {
             while (!stopFlag) {
                 val message = setTimeHandler.obtainMessage()
-                val bundle: Bundle = Bundle()
+                val bundle = Bundle()
 
                 val currentTimeStamp = SystemClock.elapsedRealtime()
                 val countTimeSeconds = ((currentTimeStamp - startTimeStamp) / 1000L).toInt()
@@ -167,16 +162,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        fun initTimeStamp() {
+            startTimeStamp = SystemClock.elapsedRealtime()
+        }
+
         fun threadStop(flag: Boolean) {
             this.stopFlag = flag
         }
     }
 
     /**
-     * 현재 시간
+     * Now Clock
      */
     inner class UpdateTimeThread : Thread() {
-        private var stopFlag = false
+        private var stopFlag = true
 
         override fun run() {
             while (!stopFlag) {
@@ -213,5 +212,18 @@ class MainActivity : AppCompatActivity() {
                 secTimerTextView.text = time.substring(4, 6)
             }
         }
+    }
+
+    private fun getNowTime(): String {
+        val mNow = System.currentTimeMillis()
+        val date = Date(mNow)
+
+        val dateFormat = SimpleDateFormat("HHmmss")
+        return dateFormat.format(date)
+    }
+
+    private fun initTimer() {
+        timerTextView.text = "00:00"
+        secTimerTextView.text = "00"
     }
 }

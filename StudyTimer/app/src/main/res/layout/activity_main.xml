@@ -116,7 +116,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
-                android:text="START/\nSTOP"
+                android:text="START"
                 android:textSize="13sp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -126,7 +126,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
-                android:text="MEMORY"
+                android:text="STOP"
                 android:textSize="13sp" />
 
             <androidx.appcompat.widget.AppCompatButton
