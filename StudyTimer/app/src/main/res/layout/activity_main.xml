@@ -75,30 +75,33 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/startButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
-                android:text="HR"
+                android:text="START"
                 android:textSize="13sp" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/pauseButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
-                android:text="MIN"
+                android:text="PAUSE"
                 android:textSize="13sp" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/stopButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
-                android:text="SEC"
+                android:text="STOP"
                 android:textSize="13sp" />
         </LinearLayout>
 
@@ -110,23 +113,21 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/startButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
-                android:text="START"
                 android:textSize="13sp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/stopButton"
+                android:id="@+id/memoryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
-                android:text="STOP"
+                android:text="MEMORY"
                 android:textSize="13sp" />
 
             <androidx.appcompat.widget.AppCompatButton

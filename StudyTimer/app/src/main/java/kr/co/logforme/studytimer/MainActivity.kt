@@ -5,7 +5,6 @@ import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -13,6 +12,12 @@ class MainActivity : AppCompatActivity() {
 
     //0:CLOCK 1:COUNT-UP 2:COUNT-DOWN
     private var countType = CountType.CLOCK
+
+    //시간 체크용
+    private var startTimeStamp: Long = 0L
+    private var pauseTimeStamp: Long = 0L
+    private var pauseTime: Long = 0L
+
 
     private val countTypeButton: Button by lazy {
         findViewById<Button>(R.id.countTypeButton)
@@ -27,6 +32,9 @@ class MainActivity : AppCompatActivity() {
 
     private val startButton: Button by lazy {
         findViewById<Button>(R.id.startButton)
+    }
+    private val pauseButton: Button by lazy {
+        findViewById<Button>(R.id.pauseButton)
     }
     private val stopButton: Button by lazy {
         findViewById<Button>(R.id.stopButton)
@@ -88,6 +96,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //pauseButton
+        pauseButton.setOnClickListener {
+            when (countType) {
+                CountType.CLOCK -> {
+                    //PASS
+                }
+                CountType.COUNT_UP -> {
+                    pauseCountUp()
+                }
+                CountType.COUNT_DOWN -> {
+                    //TODO
+                }
+            }
+        }
+
         //StopButton
         stopButton.setOnClickListener {
             when (countType) {
@@ -104,6 +127,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Thread Action
+     */
     private fun initThread() {
         updateTimeThread = UpdateTimeThread()
         updateCountUpThread = UpdateCountUpThread()
@@ -111,21 +137,33 @@ class MainActivity : AppCompatActivity() {
         updateTimeThread.start()
         updateCountUpThread.start()
     }
+    private fun stopThread() {
+        updateTimeThread.threadStop(true)
+        updateCountUpThread.threadStop(true)
+    }
 
+    /**
+     * Now-time Action
+     */
     private fun updateNowTime() {
         updateTimeThread = UpdateTimeThread()
         updateTimeThread.start()
         updateTimeThread.threadStop(false)
     }
 
+    /**
+     * Count-up Action
+     */
     private fun updateCountUp() {
         updateCountUpThread = UpdateCountUpThread()
+        updateCountUpThread.setStartTime()  //첫 카운트업 타임스탬프 저장
+        updateCountUpThread.setPauseTime()
         updateCountUpThread.start()
         updateCountUpThread.threadStop(false)
     }
 
-    private fun stopThread() {
-        updateTimeThread.threadStop(true)
+    private fun pauseCountUp() {
+        updateCountUpThread.setPauseTimeStamp()
         updateCountUpThread.threadStop(true)
     }
 
@@ -135,11 +173,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Count-up
+     * Count-up Thread
      */
     inner class UpdateCountUpThread : Thread() {
         private var stopFlag = true
-        private var startTimeStamp: Long = SystemClock.elapsedRealtime()
 
         override fun run() {
             while (!stopFlag) {
@@ -147,7 +184,11 @@ class MainActivity : AppCompatActivity() {
                 val bundle = Bundle()
 
                 val currentTimeStamp = SystemClock.elapsedRealtime()
-                val countTimeSeconds = ((currentTimeStamp - startTimeStamp) / 1000L).toInt()
+
+                System.out.println("" + currentTimeStamp + " / " + startTimeStamp + "/" + pauseTime)
+
+                val countTimeSeconds = ((currentTimeStamp - startTimeStamp - pauseTime) / 1000L).toInt()
+                // 멈춘 동안 흘러간 시간을 다시 빼주어야 함
 
                 val hours = countTimeSeconds / (60 * 60)
                 val minutes = countTimeSeconds / 60
@@ -162,8 +203,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        fun initTimeStamp() {
-            startTimeStamp = SystemClock.elapsedRealtime()
+        fun setStartTime() {
+            if (startTimeStamp == 0L) {
+                startTimeStamp = SystemClock.elapsedRealtime()
+            }
+        }
+
+        fun setPauseTimeStamp() {
+            pauseTimeStamp = SystemClock.elapsedRealtime()
+        }
+
+        fun setPauseTime() {
+            val currentTimeStamp = SystemClock.elapsedRealtime()
+            if (pauseTimeStamp != 0L) {
+                pauseTime += (currentTimeStamp - pauseTimeStamp)
+            }
         }
 
         fun threadStop(flag: Boolean) {
