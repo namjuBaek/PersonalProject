@@ -13,7 +13,10 @@ class MainActivity : AppCompatActivity() {
     //0:CLOCK 1:COUNT-UP 2:COUNT-DOWN
     private var countType = CountType.CLOCK
 
-    //시간 체크용
+    //현재 타이머 상태
+    private var timerStatus = Status.WAIT
+
+    //Count-up TimeStamp 변수
     private var startTimeStamp: Long = 0L
     private var pauseTimeStamp: Long = 0L
     private var pauseTime: Long = 0L
@@ -83,11 +86,14 @@ class MainActivity : AppCompatActivity() {
     private fun initSettingButton() {
         //Start Button
         startButton.setOnClickListener {
+            if (timerStatus == Status.RUN) return@setOnClickListener
+
             when (countType) {
                 CountType.CLOCK -> {
                     //PASS
                 }
                 CountType.COUNT_UP -> {
+                    timerStatus = Status.RUN
                     updateCountUp()
                 }
                 CountType.COUNT_DOWN -> {
@@ -98,11 +104,14 @@ class MainActivity : AppCompatActivity() {
 
         //pauseButton
         pauseButton.setOnClickListener {
+            if (timerStatus == Status.PAUSE) return@setOnClickListener
+
             when (countType) {
                 CountType.CLOCK -> {
                     //PASS
                 }
                 CountType.COUNT_UP -> {
+                    timerStatus = Status.PAUSE
                     pauseCountUp()
                 }
                 CountType.COUNT_DOWN -> {
@@ -118,6 +127,7 @@ class MainActivity : AppCompatActivity() {
                     //PASS
                 }
                 CountType.COUNT_UP -> {
+                    timerStatus = Status.WAIT
                     stopCountUp()
                 }
                 CountType.COUNT_DOWN -> {
@@ -185,7 +195,7 @@ class MainActivity : AppCompatActivity() {
 
                 val currentTimeStamp = SystemClock.elapsedRealtime()
 
-                System.out.println("" + currentTimeStamp + " / " + startTimeStamp + "/" + pauseTime)
+                System.out.println("" + currentTimeStamp + " / " + startTimeStamp + " / " + pauseTime)
 
                 val countTimeSeconds = ((currentTimeStamp - startTimeStamp - pauseTime) / 1000L).toInt()
                 // 멈춘 동안 흘러간 시간을 다시 빼주어야 함
@@ -277,6 +287,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initTimer() {
+        startTimeStamp = 0L
+        pauseTimeStamp = 0L
+        pauseTime = 0L
+
         timerTextView.text = "00:00"
         secTimerTextView.text = "00"
     }
