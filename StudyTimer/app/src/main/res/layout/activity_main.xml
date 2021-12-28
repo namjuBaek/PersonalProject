@@ -75,6 +75,44 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/hourButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/time_setting_button"
+                android:text="HR"
+                android:textSize="13sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/minuteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/time_setting_button"
+                android:text="MIN"
+                android:textSize="13sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/secondButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/time_setting_button"
+                android:text="SEC"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/startButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -92,42 +130,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/time_setting_button"
                 android:text="PAUSE"
-                android:textSize="13sp" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/stopButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/time_setting_button"
-                android:text="STOP"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/time_setting_button"
-                android:textSize="13sp" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/memoryButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/time_setting_button"
-                android:text="MEMORY"
                 android:textSize="13sp" />
 
             <androidx.appcompat.widget.AppCompatButton

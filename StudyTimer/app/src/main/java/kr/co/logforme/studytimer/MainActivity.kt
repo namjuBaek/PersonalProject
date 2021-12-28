@@ -17,9 +17,13 @@ class MainActivity : AppCompatActivity() {
     private var timerStatus = Status.WAIT
 
     //Count-up TimeStamp 변수
-    private var startTimeStamp: Long = 0L
-    private var pauseTimeStamp: Long = 0L
-    private var pauseTime: Long = 0L
+    private var startTimeStamp: Long = 0L   //시작 시점
+    private var pauseTimeStamp: Long = 0L   //일시정지 시점
+    private var pauseTime: Long = 0L    //일시정지된 후 흘러간 시간
+
+    //Count-down 변수
+    private lateinit var countDownTimer: CountDownTimer //count-down 타이머
+    private var countTime: Long = 0L
 
 
     private val countTypeButton: Button by lazy {
@@ -33,14 +37,25 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.secTimerTextView)
     }
 
+    private val hourButton: Button by lazy {
+        findViewById<Button>(R.id.hourButton)
+    }
+    private val minuteButton: Button by lazy {
+        findViewById<Button>(R.id.minuteButton)
+    }
+    private val secondButton: Button by lazy {
+        findViewById<Button>(R.id.secondButton)
+    }
+
+
     private val startButton: Button by lazy {
         findViewById<Button>(R.id.startButton)
     }
     private val pauseButton: Button by lazy {
         findViewById<Button>(R.id.pauseButton)
     }
-    private val stopButton: Button by lazy {
-        findViewById<Button>(R.id.stopButton)
+    private val clearButton: Button by lazy {
+        findViewById<Button>(R.id.clearButton)
     }
 
     private val setTimeHandler = SetTimeHandler()
@@ -52,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initCountTypeButton()
+        initTimeButton()
         initSettingButton()
         initThread()
 
@@ -83,6 +99,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initTimeButton() {
+        //Hour Button
+        hourButton.setOnClickListener {
+            countTime += (60 * 60)
+            setTimer(countTime)
+        }
+
+        //Minute Button
+        minuteButton.setOnClickListener {
+            countTime += 60
+            setTimer(countTime)
+        }
+
+        //Second Button
+        secondButton.setOnClickListener {
+            countTime += 1
+            setTimer(countTime)
+        }
+    }
+
     private fun initSettingButton() {
         //Start Button
         startButton.setOnClickListener {
@@ -97,7 +133,16 @@ class MainActivity : AppCompatActivity() {
                     updateCountUp()
                 }
                 CountType.COUNT_DOWN -> {
-                    //TODO
+                    //Count-down 시작
+                    countDownTimer = object : CountDownTimer(1000, 500) {
+                        override fun onTick(p0: Long) {
+                            TODO("Not yet implemented")
+                        }
+
+                        override fun onFinish() {
+                            TODO("Not yet implemented")
+                        }
+                    }
                 }
             }
         }
@@ -120,20 +165,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //StopButton
-        stopButton.setOnClickListener {
+        //clearButton
+        clearButton.setOnClickListener {
             when (countType) {
                 CountType.CLOCK -> {
                     //PASS
                 }
                 CountType.COUNT_UP -> {
-                    timerStatus = Status.WAIT
-                    stopCountUp()
+                    clearCountUp()
                 }
                 CountType.COUNT_DOWN -> {
-                    //TODO
+                    clearCountDown()
                 }
             }
+            timerStatus = Status.WAIT
         }
     }
 
@@ -167,7 +212,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateCountUp() {
         updateCountUpThread = UpdateCountUpThread()
         updateCountUpThread.setStartTime()  //첫 카운트업 타임스탬프 저장
-        updateCountUpThread.setPauseTime()
+        updateCountUpThread.calPauseTime()
         updateCountUpThread.start()
         updateCountUpThread.threadStop(false)
     }
@@ -177,9 +222,14 @@ class MainActivity : AppCompatActivity() {
         updateCountUpThread.threadStop(true)
     }
 
-    private fun stopCountUp() {
+    private fun clearCountUp() {
         initTimer()
         updateCountUpThread.threadStop(true)
+    }
+
+    private fun clearCountDown() {
+        countTime = 0L
+        initTimer()
     }
 
     /**
@@ -198,10 +248,9 @@ class MainActivity : AppCompatActivity() {
                 System.out.println("" + currentTimeStamp + " / " + startTimeStamp + " / " + pauseTime)
 
                 val countTimeSeconds = ((currentTimeStamp - startTimeStamp - pauseTime) / 1000L).toInt()
-                // 멈춘 동안 흘러간 시간을 다시 빼주어야 함
 
                 val hours = countTimeSeconds / (60 * 60)
-                val minutes = countTimeSeconds / 60
+                val minutes = (countTimeSeconds - (hours * 60 * 60)) / 60
                 val seconds = countTimeSeconds % 60
 
                 val time = "%02d%02d%02d".format(hours, minutes, seconds)
@@ -223,7 +272,7 @@ class MainActivity : AppCompatActivity() {
             pauseTimeStamp = SystemClock.elapsedRealtime()
         }
 
-        fun setPauseTime() {
+        fun calPauseTime() {
             val currentTimeStamp = SystemClock.elapsedRealtime()
             if (pauseTimeStamp != 0L) {
                 pauseTime += (currentTimeStamp - pauseTimeStamp)
@@ -278,12 +327,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun getNowTime(): String {
         val mNow = System.currentTimeMillis()
         val date = Date(mNow)
 
         val dateFormat = SimpleDateFormat("HHmmss")
         return dateFormat.format(date)
+    }
+
+    /**
+     * 타이머 시간 세팅
+     */
+    private fun setTimer(countTimeSeconds: Long) {
+        val hours = countTimeSeconds / (60 * 60)
+        val minutes = (countTimeSeconds - (hours * 60 * 60)) / 60
+        val seconds = countTimeSeconds % 60
+
+        val time = "%02d%02d%02d".format(hours, minutes, seconds)
+
+        timerTextView.text = time.substring(0, 2) + ":" + time.substring(2, 4)
+        secTimerTextView.text = time.substring(4, 6)
     }
 
     private fun initTimer() {
