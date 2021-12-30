@@ -8,7 +8,8 @@
 1. Clock
 2. Count-up 
 3. Count-down
-4. Background 실행 처리
+4. Background 실행
+5. 가로버전 지원
 
 <br>
 

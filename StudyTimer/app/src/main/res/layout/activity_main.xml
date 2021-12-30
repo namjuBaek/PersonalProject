@@ -20,15 +20,14 @@
         app:layout_constraintBottom_toTopOf="@+id/timerLinearLayout"
         app:layout_constraintStart_toStartOf="@+id/timerLinearLayout" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/timerLinearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="55dp"
         android:background="@drawable/timer_background"
-        android:paddingHorizontal="10dp"
+        android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3">
 
@@ -40,7 +39,11 @@
             android:text="00:00"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="100sp" />
+            android:textSize="100sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/secTimerTextView"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/secTimerTextView"
@@ -51,18 +54,22 @@
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="50sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/timerTextView" />
-    </LinearLayout>
+            app:layout_constraintBaseline_toBaselineOf="@id/timerTextView"
+            app:layout_constraintStart_toEndOf="@+id/timerTextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout
         android:id="@+id/buttonLinearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/time_setting_button_layout"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingVertical="15dp"
-        android:background="@drawable/time_setting_button_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
