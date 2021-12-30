@@ -2,6 +2,7 @@ package kr.co.logforme.studytimer
 
 import android.annotation.SuppressLint
 import android.os.*
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         initCountTypeButton()
         initTimeButton()
         initSettingButton()
+        initEnabledButton()
         initThread()
 
         //시계 구동
@@ -93,12 +95,17 @@ class MainActivity : AppCompatActivity() {
                     countType = CountType.CLOCK
                     countTypeButton.text = "CLOCK"
 
+                    //현재 시각 세팅
                     updateNowTime()
                 }
             }
+            initEnabledButton()
         }
     }
 
+    /**
+     * Timer Button Setting
+     */
     private fun initTimeButton() {
         //Hour Button
         hourButton.setOnClickListener {
@@ -126,7 +133,7 @@ class MainActivity : AppCompatActivity() {
 
             when (countType) {
                 CountType.CLOCK -> {
-                    //PASS
+                    //Disabled
                 }
                 CountType.COUNT_UP -> {
                     timerStatus = Status.RUN
@@ -134,42 +141,37 @@ class MainActivity : AppCompatActivity() {
                 }
                 CountType.COUNT_DOWN -> {
                     //Count-down 시작
-                    countDownTimer = object : CountDownTimer(1000, 500) {
-                        override fun onTick(p0: Long) {
-                            TODO("Not yet implemented")
-                        }
-
-                        override fun onFinish() {
-                            TODO("Not yet implemented")
-                        }
-                    }
+                    timerStatus = Status.RUN
+                    updateCountDown()
                 }
             }
         }
 
         //pauseButton
         pauseButton.setOnClickListener {
-            if (timerStatus == Status.PAUSE) return@setOnClickListener
+            if (timerStatus != Status.RUN) return@setOnClickListener
 
             when (countType) {
                 CountType.CLOCK -> {
-                    //PASS
+                    //Disabled
                 }
                 CountType.COUNT_UP -> {
                     timerStatus = Status.PAUSE
                     pauseCountUp()
                 }
                 CountType.COUNT_DOWN -> {
-                    //TODO
+                    timerStatus = Status.PAUSE
+                    pauseCountDown()
                 }
             }
         }
 
         //clearButton
         clearButton.setOnClickListener {
+            initTimer()
             when (countType) {
                 CountType.CLOCK -> {
-                    //PASS
+                    //Disabled
                 }
                 CountType.COUNT_UP -> {
                     clearCountUp()
@@ -178,7 +180,35 @@ class MainActivity : AppCompatActivity() {
                     clearCountDown()
                 }
             }
-            timerStatus = Status.WAIT
+        }
+    }
+
+    private fun initEnabledButton() {
+        when (countType) {
+            CountType.CLOCK -> {
+                hourButton.isEnabled = false
+                minuteButton.isEnabled = false
+                secondButton.isEnabled = false
+                startButton.isEnabled = false
+                pauseButton.isEnabled = false
+                clearButton.isEnabled = false
+            }
+            CountType.COUNT_UP -> {
+                hourButton.isEnabled = false
+                minuteButton.isEnabled = false
+                secondButton.isEnabled = false
+                startButton.isEnabled = true
+                pauseButton.isEnabled = true
+                clearButton.isEnabled = true
+            }
+            CountType.COUNT_DOWN -> {
+                hourButton.isEnabled = true
+                minuteButton.isEnabled = true
+                secondButton.isEnabled = true
+                startButton.isEnabled = true
+                pauseButton.isEnabled = true
+                clearButton.isEnabled = true
+            }
         }
     }
 
@@ -223,14 +253,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun clearCountUp() {
-        initTimer()
         updateCountUpThread.threadStop(true)
+    }
+
+    /**
+     * Count-down Action
+     */
+    private fun updateCountDown() {
+        countDownTimer = object : CountDownTimer(countTime * 1000, 1000) {
+            override fun onTick(p0: Long) {
+                countTime -= 1
+                setTimer(countTime)
+            }
+
+            override fun onFinish() {
+                Log.d("MainActivity", "Count-down Finish")
+
+                //TODO 알림 띄우기
+            }
+        }.start()
+    }
+
+    private fun pauseCountDown() {
+        countDownTimer.cancel()
     }
 
     private fun clearCountDown() {
         countTime = 0L
-        initTimer()
     }
+
 
     /**
      * Count-up Thread
@@ -311,6 +362,7 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * 시간 세팅하는 UI 핸들러
+     * - UI를 변경하기 위해 핸들러 사용
      */
     inner class SetTimeHandler : Handler(Looper.getMainLooper()) {
         @SuppressLint("SetTextI18n")
@@ -319,7 +371,6 @@ class MainActivity : AppCompatActivity() {
 
             val bundle: Bundle = msg.data
             if (!bundle.isEmpty) {
-                //UI Task
                 val time: String = bundle.getString("time").toString()
                 timerTextView.text = time.substring(0, 2) + ":" + time.substring(2, 4)
                 secTimerTextView.text = time.substring(4, 6)
@@ -351,9 +402,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initTimer() {
+        timerStatus = Status.WAIT
+
         startTimeStamp = 0L
         pauseTimeStamp = 0L
         pauseTime = 0L
+        countTime = 0L
 
         timerTextView.text = "00:00"
         secTimerTextView.text = "00"
