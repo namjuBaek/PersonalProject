@@ -3,17 +3,9 @@
 
     <font android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/ds_digit"/>
+        android:font="@font/spoqa_bold"/>
 
     <font android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/ds_digi"/>
-
-    <font android:fontStyle="normal"
-        android:fontWeight="400"
-        android:font="@font/ds_digib"/>
-
-    <font android:fontStyle="normal"
-        android:fontWeight="400"
-        android:font="@font/ds_digii"/>
+        android:font="@font/spoqa_regular"/>
 </font-family>

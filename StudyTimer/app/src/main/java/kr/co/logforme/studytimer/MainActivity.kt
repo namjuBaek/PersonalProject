@@ -80,14 +80,16 @@ class MainActivity : AppCompatActivity() {
     private fun initCountTypeButton() {
         countTypeButton.setOnClickListener {
             stopThread()
-            initTimer()
+            pauseCountDown()
 
             when (countType) {
                 CountType.CLOCK -> {
+                    initTimer()
                     countType = CountType.COUNT_UP
                     countTypeButton.text = "COUNT-UP"
                 }
                 CountType.COUNT_UP -> {
+                    initTimer()
                     countType = CountType.COUNT_DOWN
                     countTypeButton.text = "COUNT-DOWN"
                 }
@@ -275,7 +277,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun pauseCountDown() {
-        countDownTimer.cancel()
+        if (this::countDownTimer.isInitialized) {
+            countDownTimer.cancel()
+        }
     }
 
     private fun clearCountDown() {

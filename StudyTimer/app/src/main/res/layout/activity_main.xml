@@ -35,29 +35,29 @@
             android:id="@+id/timerTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/ds_digib"
+            android:fontFamily="@font/spoqa_bold"
             android:text="00:00"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="100sp"
+            android:textSize="70sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/secTimerTextView"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/secTimerTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/ds_digib"
+            android:fontFamily="@font/spoqa_bold"
             android:text="00"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="50sp"
+            android:textSize="40sp"
             app:layout_constraintBaseline_toBaselineOf="@id/timerTextView"
-            app:layout_constraintStart_toEndOf="@+id/timerTextView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/timerTextView"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

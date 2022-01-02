@@ -13,6 +13,11 @@
 
 <br>
 
+**사용 폰트**
+
+- 크기 고정을 위해 모노스페이스 폰트 사용
+- SpoqaHanSansNet-Bold / SpoqaHanSansNet-Regular 
+
 <br>
 
 #### Clock
