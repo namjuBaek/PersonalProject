@@ -1,6 +1,9 @@
 package kr.co.logforme.studytimer
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.*
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -144,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                 CountType.COUNT_DOWN -> {
                     //Count-down 시작
                     timerStatus = Status.RUN
-                    updateCountDown()
+                    updateCountDown(this)
                 }
             }
         }
@@ -261,7 +264,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Count-down Action
      */
-    private fun updateCountDown() {
+    private fun updateCountDown(context: Context) {
         countDownTimer = object : CountDownTimer(countTime * 1000, 1000) {
             override fun onTick(p0: Long) {
                 countTime -= 1
@@ -271,7 +274,9 @@ class MainActivity : AppCompatActivity() {
             override fun onFinish() {
                 Log.d("MainActivity", "Count-down Finish")
 
-                //TODO 알림 띄우기
+                //TODO 소리 알림 -> 향후에 사용자가 알림 형식 선택할 수 있게
+                //playNotification(context)
+                playVibration(context)
             }
         }.start()
     }
@@ -403,6 +408,27 @@ class MainActivity : AppCompatActivity() {
 
         timerTextView.text = time.substring(0, 2) + ":" + time.substring(2, 4)
         secTimerTextView.text = time.substring(4, 6)
+    }
+
+    /**
+     * 타이머 알림
+     * User Notification
+     */
+    private fun playNotification(context: Context) {
+        val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val ringtone = RingtoneManager.getRingtone(context, uri)
+        ringtone.play()
+    }
+
+    private fun playVibration(context: Context) {
+        val vibrator = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as Vibrator
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            //deprecated in API 26
+            vibrator.vibrate(500);
+        }
     }
 
     private fun initTimer() {
