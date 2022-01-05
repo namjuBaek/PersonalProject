@@ -74,14 +74,68 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        if (savedInstanceState != null) {
+            //변수 불러오기
+            countType = savedInstanceState.getSerializable("countType") as CountType
+            timerStatus = savedInstanceState.getSerializable("timerStatus") as Status
+
+            when (countType) {
+                CountType.CLOCK -> {
+                    countTypeButton.text = "CLOCK"
+                }
+                CountType.COUNT_UP -> {
+                    countTypeButton.text = "COUNT-UP"
+                    startTimeStamp = savedInstanceState.getLong("startTimeStamp")
+                    pauseTimeStamp = savedInstanceState.getLong("pauseTimeStamp")
+                    pauseTime = savedInstanceState.getLong("pauseTime")
+                }
+                CountType.COUNT_DOWN -> {
+                    countTypeButton.text = "COUNT-DOWN"
+                    countTime = savedInstanceState.getLong("countTime")
+                }
+            }
+        }
+
         initCountTypeButton()
         initTimeButton()
         initSettingButton()
         initEnabledButton()
         initThread()
 
-        //시계 구동
-        updateNowTime()
+        //타이머
+        when (countType) {
+            CountType.CLOCK -> {
+                updateNowTime()
+            }
+            CountType.COUNT_UP -> {
+                if (timerStatus == Status.RUN)
+                    updateCountUp()
+                else {
+                    //pauseTime 고려해야함
+                    val currentTimeStamp = SystemClock.elapsedRealtime()
+
+                    val countTimeSeconds = ((currentTimeStamp - startTimeStamp - pauseTime) / 1000L)
+
+
+                    val hours = countTimeSeconds / (60 * 60)
+                    val minutes = (countTimeSeconds - (hours * 60 * 60)) / 60
+                    val seconds = countTimeSeconds % 60
+
+                    val time = "%02d%02d%02d".format(hours, minutes, seconds)
+
+                    timerTextView.text = time.substring(0, 2) + ":" + time.substring(2, 4)
+                    secTimerTextView.text = time.substring(4, 6)
+
+                    //setTimer(countTimeSeconds)
+                }
+            }
+            CountType.COUNT_DOWN -> {
+                if (timerStatus == Status.RUN)
+                    updateCountDown(this)
+                else
+                    setTimer(countTime)
+            }
+        }
     }
 
     private fun initCountTypeButton() {
@@ -104,7 +158,6 @@ class MainActivity : AppCompatActivity() {
                     countType = CountType.CLOCK
                     countTypeButton.text = "CLOCK"
 
-                    //현재 시각 세팅
                     updateNowTime()
                 }
             }
@@ -116,19 +169,16 @@ class MainActivity : AppCompatActivity() {
      * Timer Button Setting
      */
     private fun initTimeButton() {
-        //Hour Button
         hourButton.setOnClickListener {
             countTime += (60 * 60)
             setTimer(countTime)
         }
 
-        //Minute Button
         minuteButton.setOnClickListener {
             countTime += 60
             setTimer(countTime)
         }
 
-        //Second Button
         secondButton.setOnClickListener {
             countTime += 1
             setTimer(countTime)
@@ -136,7 +186,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initSettingButton() {
-        //Start Button
         startButton.setOnClickListener {
             if (timerStatus == Status.RUN) return@setOnClickListener
 
@@ -156,7 +205,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //pauseButton
         pauseButton.setOnClickListener {
             if (timerStatus != Status.RUN) return@setOnClickListener
 
@@ -175,7 +223,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //clearButton
         clearButton.setOnClickListener {
             initTimer()
             when (countType) {
@@ -449,5 +496,33 @@ class MainActivity : AppCompatActivity() {
 
         timerTextView.text = "00:00"
         secTimerTextView.text = "00"
+    }
+
+
+    /**
+     * Android LifeCycle
+     */
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        //1. clock : x / up : 흘러간 시간 / down : 남은 시간
+        //2. 현재 Count-type
+        //3. play 여부 (Status)
+
+        when (countType) {
+            CountType.CLOCK -> {
+                //Disabled
+            }
+            CountType.COUNT_UP -> {
+                outState.putLong("startTimeStamp", startTimeStamp)
+                outState.putLong("pauseTimeStamp", pauseTimeStamp)
+                outState.putLong("pauseTime", pauseTime)
+            }
+            CountType.COUNT_DOWN -> {
+                outState.putLong("countTime", countTime)
+            }
+        }
+        outState.putSerializable("countType", countType)
+        outState.putSerializable("timerStatus", timerStatus)
     }
 }
