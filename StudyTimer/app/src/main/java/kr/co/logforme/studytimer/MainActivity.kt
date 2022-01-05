@@ -62,6 +62,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.clearButton)
     }
 
+    private val settingButton: Button by lazy {
+        findViewById<Button>(R.id.settingButton)
+    }
+
     private val setTimeHandler = SetTimeHandler()
     private lateinit var updateTimeThread: UpdateTimeThread
     private lateinit var updateCountUpThread: UpdateCountUpThread
@@ -421,7 +425,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playVibration(context: Context) {
-        val vibrator = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as Vibrator
+        val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as Vibrator
+        } else {
+            context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
