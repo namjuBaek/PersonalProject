@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     countTypeButton.text = "COUNT-UP"
                     startTimeStamp = savedInstanceState.getLong("startTimeStamp")
                     pauseTimeStamp = savedInstanceState.getLong("pauseTimeStamp")
-                    pauseTime = savedInstanceState.getLong("pauseTime")
+                    //pauseTime = savedInstanceState.getLong("pauseTime")
                 }
                 CountType.COUNT_DOWN -> {
                     countTypeButton.text = "COUNT-DOWN"
@@ -111,11 +111,11 @@ class MainActivity : AppCompatActivity() {
                 if (timerStatus == Status.RUN)
                     updateCountUp()
                 else {
-                    //pauseTime 고려해야함
+                    updateCountUpThread.calPauseTime()  //pause 시간 세팅
+                    updateCountUpThread.setPauseTimeStamp() //pauseTimeStamp 갱신
+
                     val currentTimeStamp = SystemClock.elapsedRealtime()
-
                     val countTimeSeconds = ((currentTimeStamp - startTimeStamp - pauseTime) / 1000L)
-
 
                     val hours = countTimeSeconds / (60 * 60)
                     val minutes = (countTimeSeconds - (hours * 60 * 60)) / 60
@@ -189,6 +189,7 @@ class MainActivity : AppCompatActivity() {
         startButton.setOnClickListener {
             if (timerStatus == Status.RUN) return@setOnClickListener
 
+            Log.d("countType", countType.toString())
             when (countType) {
                 CountType.CLOCK -> {
                     //Disabled
@@ -199,6 +200,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 CountType.COUNT_DOWN -> {
                     //Count-down 시작
+                    Log.d("StartButton Click", "")
                     timerStatus = Status.RUN
                     updateCountDown(this)
                 }
@@ -323,11 +325,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                Log.d("MainActivity", "Count-down Finish")
+                timerStatus = Status.WAIT
+                playVibration(context)
 
                 //TODO 소리 알림 -> 향후에 사용자가 알림 형식 선택할 수 있게
                 //playNotification(context)
-                playVibration(context)
             }
         }.start()
     }
