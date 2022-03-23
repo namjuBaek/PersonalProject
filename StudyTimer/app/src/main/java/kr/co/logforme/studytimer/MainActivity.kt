@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var countDownTimer: CountDownTimer //count-down 타이머
     private var countTime: Long = 0L
 
+    //버튼 활성화 여부
+    private var controlButtons = HashMap<String, Boolean>()
 
     private val countTypeButton: Button by lazy {
         findViewById<Button>(R.id.countTypeButton)
@@ -139,6 +142,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initCountTypeButton() {
+        controlButtons["HR"] = false;
+        controlButtons["MIN"] = false;
+        controlButtons["SEC"] = false;
+        controlButtons["START"] = false;
+        controlButtons["PAUSE"] = false;
+        controlButtons["CLEAR"] = false;
+
         countTypeButton.setOnClickListener {
             stopThread()
             pauseCountDown()
@@ -172,16 +182,28 @@ class MainActivity : AppCompatActivity() {
         hourButton.setOnClickListener {
             countTime += (60 * 60)
             setTimer(countTime)
+
+            controlButtons["START"] = true
+            controlButtons["CLEAR"] = true
+            updateEnabledButton()
         }
 
         minuteButton.setOnClickListener {
             countTime += 60
             setTimer(countTime)
+
+            controlButtons["START"] = true
+            controlButtons["CLEAR"] = true
+            updateEnabledButton()
         }
 
         secondButton.setOnClickListener {
             countTime += 1
             setTimer(countTime)
+
+            controlButtons["START"] = true
+            controlButtons["CLEAR"] = true
+            updateEnabledButton()
         }
     }
 
@@ -189,22 +211,27 @@ class MainActivity : AppCompatActivity() {
         startButton.setOnClickListener {
             if (timerStatus == Status.RUN) return@setOnClickListener
 
-            Log.d("countType", countType.toString())
             when (countType) {
                 CountType.CLOCK -> {
                     //Disabled
                 }
                 CountType.COUNT_UP -> {
                     timerStatus = Status.RUN
+                    controlButtons["START"] = false
+                    controlButtons["PAUSE"] = true
+                    controlButtons["CLEAR"] = false
                     updateCountUp()
                 }
                 CountType.COUNT_DOWN -> {
-                    //Count-down 시작
                     Log.d("StartButton Click", "")
                     timerStatus = Status.RUN
+                    controlButtons["START"] = false
+                    controlButtons["PAUSE"] = true
+                    controlButtons["CLEAR"] = false
                     updateCountDown(this)
                 }
             }
+            updateEnabledButton()
         }
 
         pauseButton.setOnClickListener {
@@ -216,13 +243,20 @@ class MainActivity : AppCompatActivity() {
                 }
                 CountType.COUNT_UP -> {
                     timerStatus = Status.PAUSE
+                    controlButtons["START"] = true
+                    controlButtons["PAUSE"] = false
+                    controlButtons["CLEAR"] = true
                     pauseCountUp()
                 }
                 CountType.COUNT_DOWN -> {
                     timerStatus = Status.PAUSE
+                    controlButtons["START"] = true
+                    controlButtons["PAUSE"] = false
+                    controlButtons["CLEAR"] = true
                     pauseCountDown()
                 }
             }
+            updateEnabledButton()
         }
 
         clearButton.setOnClickListener {
@@ -233,41 +267,58 @@ class MainActivity : AppCompatActivity() {
                 }
                 CountType.COUNT_UP -> {
                     clearCountUp()
+                    controlButtons["START"] = true
+                    controlButtons["PAUSE"] = false
+                    controlButtons["CLEAR"] = false
                 }
                 CountType.COUNT_DOWN -> {
                     clearCountDown()
+                    controlButtons["START"] = false
+                    controlButtons["PAUSE"] = false
+                    controlButtons["CLEAR"] = false
                 }
             }
+            updateEnabledButton()
         }
     }
 
     private fun initEnabledButton() {
         when (countType) {
             CountType.CLOCK -> {
-                hourButton.isEnabled = false
-                minuteButton.isEnabled = false
-                secondButton.isEnabled = false
-                startButton.isEnabled = false
-                pauseButton.isEnabled = false
-                clearButton.isEnabled = false
+                controlButtons["HR"] = false
+                controlButtons["MIN"] = false
+                controlButtons["SEC"] = false
+                controlButtons["START"] = false
+                controlButtons["PAUSE"] = false
+                controlButtons["CLEAR"] = false
             }
             CountType.COUNT_UP -> {
-                hourButton.isEnabled = false
-                minuteButton.isEnabled = false
-                secondButton.isEnabled = false
-                startButton.isEnabled = true
-                pauseButton.isEnabled = true
-                clearButton.isEnabled = true
+                controlButtons["HR"] = false
+                controlButtons["MIN"] = false
+                controlButtons["SEC"] = false
+                controlButtons["START"] = true
+                controlButtons["PAUSE"] = false
+                controlButtons["CLEAR"] = false
             }
             CountType.COUNT_DOWN -> {
-                hourButton.isEnabled = true
-                minuteButton.isEnabled = true
-                secondButton.isEnabled = true
-                startButton.isEnabled = true
-                pauseButton.isEnabled = true
-                clearButton.isEnabled = true
+                controlButtons["HR"] = true
+                controlButtons["MIN"] = true
+                controlButtons["SEC"] = true
+                controlButtons["START"] = false
+                controlButtons["PAUSE"] = false
+                controlButtons["CLEAR"] = false
             }
         }
+        updateEnabledButton()
+    }
+
+    private fun updateEnabledButton() {
+        hourButton.isEnabled = controlButtons["HR"] == true
+        minuteButton.isEnabled = controlButtons["MIN"] == true
+        secondButton.isEnabled = controlButtons["SEC"] == true
+        startButton.isEnabled = controlButtons["START"] == true
+        pauseButton.isEnabled = controlButtons["PAUSE"] == true
+        clearButton.isEnabled = controlButtons["CLEAR"] == true
     }
 
     /**
