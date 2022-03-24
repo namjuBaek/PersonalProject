@@ -2,6 +2,7 @@ package kr.co.logforme.studytimer
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.*
@@ -225,6 +226,9 @@ class MainActivity : AppCompatActivity() {
                 CountType.COUNT_DOWN -> {
                     Log.d("StartButton Click", "")
                     timerStatus = Status.RUN
+                    controlButtons["HR"] = false
+                    controlButtons["MIN"] = false
+                    controlButtons["SEC"] = false
                     controlButtons["START"] = false
                     controlButtons["PAUSE"] = true
                     controlButtons["CLEAR"] = false
@@ -250,6 +254,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 CountType.COUNT_DOWN -> {
                     timerStatus = Status.PAUSE
+                    controlButtons["HR"] = true
+                    controlButtons["MIN"] = true
+                    controlButtons["SEC"] = true
                     controlButtons["START"] = true
                     controlButtons["PAUSE"] = false
                     controlButtons["CLEAR"] = true
@@ -312,6 +319,7 @@ class MainActivity : AppCompatActivity() {
         updateEnabledButton()
     }
 
+    @SuppressLint("ResourceAsColor")
     private fun updateEnabledButton() {
         hourButton.isEnabled = controlButtons["HR"] == true
         minuteButton.isEnabled = controlButtons["MIN"] == true
@@ -319,6 +327,28 @@ class MainActivity : AppCompatActivity() {
         startButton.isEnabled = controlButtons["START"] == true
         pauseButton.isEnabled = controlButtons["PAUSE"] == true
         clearButton.isEnabled = controlButtons["CLEAR"] == true
+
+
+        if (controlButtons["HR"] == true) hourButton.setBackgroundResource(R.drawable.time_setting_button)
+        else hourButton.setBackgroundResource(R.drawable.time_setting_disabled_button)
+
+        if (controlButtons["MIN"] == true) minuteButton.setBackgroundResource(R.drawable.time_setting_button)
+        else minuteButton.setBackgroundResource(R.drawable.time_setting_disabled_button)
+
+        if (controlButtons["SEC"] == true) secondButton.setBackgroundResource(R.drawable.time_setting_button)
+        else secondButton.setBackgroundResource(R.drawable.time_setting_disabled_button)
+
+        if (controlButtons["START"] == true) startButton.setBackgroundResource(R.drawable.time_setting_button)
+        else startButton.setBackgroundResource(R.drawable.time_setting_disabled_button)
+
+        if (controlButtons["PAUSE"] == true) pauseButton.setBackgroundResource(R.drawable.time_setting_button)
+        else pauseButton.setBackgroundResource(R.drawable.time_setting_disabled_button)
+
+        if (controlButtons["CLEAR"] == true) clearButton.setBackgroundResource(R.drawable.time_setting_button)
+        else clearButton.setBackgroundResource(R.drawable.time_setting_disabled_button)
+
+
+
     }
 
     /**
