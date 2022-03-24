@@ -10,6 +10,8 @@
 
     <color name="main_color">#FF5151</color>
     <color name="main_click_color">#FF0000</color>
+    <color name="clear_color">#448AFF</color>
+    <color name="clear_click_color">#005FFF</color>
     <color name="button_disabled_color">#d3d3d3</color>
     <color name="button_disabled_click_color">#707070</color>
     <color name="timer_back">#747C7B</color>

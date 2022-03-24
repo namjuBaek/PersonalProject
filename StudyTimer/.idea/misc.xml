@@ -7,8 +7,10 @@
         <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/drawable-v24/timer_button_background.xml" value="0.38229166666666664" />
         <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.2125" />
         <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/drawable/ic_launcher_background.xml" value="0.38229166666666664" />
+        <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.38229166666666664" />
         <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/drawable/time_setting_button.xml" value="0.26875" />
         <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/drawable/time_setting_button_layout.xml" value="0.38229166666666664" />
+        <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/drawable/time_setting_clear_button.xml" value="0.2630208333333333" />
         <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/drawable/time_setting_disabled_button.xml" value="0.38229166666666664" />
         <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/drawable/timer_background.xml" value="0.38229166666666664" />
         <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/drawable/timer_button_background.xml" value="0.38229166666666664" />
@@ -16,8 +18,9 @@
         <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/drawable/timer_textview_background.xml" value="0.26875" />
         <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/font-v26/font.xml" value="0.3963541666666667" />
         <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/font/font.xml" value="0.3963541666666667" />
-        <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/layout/settings_activity.xml" value="0.19635416666666666" />
+        <entry key="..\:/personal_workspace/StudyTimer/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.17760416666666667" />
       </map>
     </option>
   </component>

@@ -344,7 +344,7 @@ class MainActivity : AppCompatActivity() {
         if (controlButtons["PAUSE"] == true) pauseButton.setBackgroundResource(R.drawable.time_setting_button)
         else pauseButton.setBackgroundResource(R.drawable.time_setting_disabled_button)
 
-        if (controlButtons["CLEAR"] == true) clearButton.setBackgroundResource(R.drawable.time_setting_button)
+        if (controlButtons["CLEAR"] == true) clearButton.setBackgroundResource(R.drawable.time_setting_clear_button)
         else clearButton.setBackgroundResource(R.drawable.time_setting_disabled_button)
 
 
