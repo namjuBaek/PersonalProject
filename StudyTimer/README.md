@@ -3,7 +3,10 @@
 
 <br>
 
-![시계]<img src="https://user-images.githubusercontent.com/77707019/159992904-f12f0f43-85bb-47ab-9d5e-cc728a67dde9.gif" width="300" height="590">
+<img src="https://user-images.githubusercontent.com/77707019/159992904-f12f0f43-85bb-47ab-9d5e-cc728a67dde9.gif" width="300" height="590">
+<img src="https://user-images.githubusercontent.com/77707019/159993433-423820de-deae-4b62-bd12-059f80ab14d2.gif" width="300" height="590">
+<img src="https://user-images.githubusercontent.com/77707019/159993467-d06686c7-8456-4a4a-96cf-927e5c99d60f.gif" width="300" height="590">
+
 
 ### 주요기능
 
