@@ -2,7 +2,8 @@
 > 학생들이 자주 사용하는 스터디 타이머를 모바일에서도 사용할 수 있도록 앱으로 구현
 
 <br>
-![시계](https://user-images.githubusercontent.com/77707019/159991999-480b4ee5-75fc-4eaa-84fd-32edfe10a033.gif)
+![시계](https://user-images.githubusercontent.com/77707019/159992904-f12f0f43-85bb-47ab-9d5e-cc728a67dde9.gif)
+
 
 
 
